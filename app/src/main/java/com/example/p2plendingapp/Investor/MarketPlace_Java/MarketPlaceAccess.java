@@ -2,16 +2,19 @@ package com.example.p2plendingapp.Investor.MarketPlace_Java;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.p2plendingapp.Investor.InvestmentDetails.CheckInvestmentDetails;
+import com.example.p2plendingapp.Investor.MainDashboardInvestor;
+import com.example.p2plendingapp.Model.Opportunities;
 import com.example.p2plendingapp.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class MarketPlaceAccess extends AppCompatActivity {
@@ -19,12 +22,16 @@ public class MarketPlaceAccess extends AppCompatActivity {
     ListView listView;
     ListAdapterClass adapter;
     FragmentManager manager;
+    Intent sIntent;
+    Button goBackMPButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_market_place_access);
         listView = findViewById(R.id.iOpportunitiesList);
+
+        goBackMPButton = findViewById(R.id.goBackMPButton);
 
         //Set the Adapter
         setAdapter();
@@ -40,6 +47,15 @@ public class MarketPlaceAccess extends AppCompatActivity {
 
         //Set manager
         manager = getSupportFragmentManager();
+
+        //Set listeners
+        goBackMPButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainDashboardInvestor.class);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -66,4 +82,6 @@ public class MarketPlaceAccess extends AppCompatActivity {
         dealDialogFragment.show(manager, "deal");
 
     }
+
+
 }

@@ -159,7 +159,7 @@
                     android:textSize="12sp" />
 
                 <RadioButton
-                    android:id="@+id/houseOptionAppForm"
+                    android:id="@+id/carOptionAppForm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/buy_a_car"

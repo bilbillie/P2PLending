@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.example.p2plendingapp.Model.InvestmentDetails;
 import com.example.p2plendingapp.R;
 
 import java.util.ArrayList;

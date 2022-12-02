@@ -4,13 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.p2plendingapp.R;
 
-public class EntranceActivity extends AppCompatActivity {
+public class EntranceActivity extends AppCompatActivity implements View.OnClickListener {
 
+    Intent sIntent;
     TextView signup;
     Button signin;
 
@@ -22,14 +24,21 @@ public class EntranceActivity extends AppCompatActivity {
         signin = findViewById(R.id.signin);
         signup = findViewById(R.id.textViewSignup);
 
-        signin.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivity(intent);
-        });
+        //Set up the listeners
+        signin.setOnClickListener(this);
+        signup.setOnClickListener(this);
+    }
 
-        signup.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-            startActivity(intent);
-        });
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.signin) {
+            sIntent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(sIntent);
+        } else {
+            sIntent = new Intent(getApplicationContext(), SignupActivity.class);
+            startActivity(sIntent);
+
+        }
     }
 }

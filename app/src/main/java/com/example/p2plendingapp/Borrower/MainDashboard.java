@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.example.p2plendingapp.Borrower.LoanDetails.CheckLoanDetails;
 import com.example.p2plendingapp.General.AgreeGeneralForm;
 import com.example.p2plendingapp.R;
+import com.example.p2plendingapp.Support.EmailSupport;
 
 public class MainDashboard extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,13 +39,19 @@ public class MainDashboard extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         if (v.getId() == R.id.doABorrowMDBt) {
             openAgreeRequirementsForm();
-        } else {
+        } else if (v.getId() == R.id.checkLoanDetailsMDBt) {
             openCheckLoanDetails();
+        } else {
+            openTalkWithSupport();
         }
-
-
     }
 
+
+    public void openTalkWithSupport() {
+        sIntent = new Intent(this, EmailSupport.class);
+        sIntent.putExtra("to main dashboard", "borrowerDashboard");
+        startActivity(sIntent);
+    }
 
     public void openCheckLoanDetails() {
         sIntent = new Intent(this, CheckLoanDetails.class);
@@ -53,6 +60,7 @@ public class MainDashboard extends AppCompatActivity implements View.OnClickList
 
     public void openAgreeRequirementsForm() {
         sIntent = new Intent(this, AgreeGeneralForm.class);
+        sIntent.putExtra("redirect to", "borrower");
         startActivity(sIntent);
     }
 }

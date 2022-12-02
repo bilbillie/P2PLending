@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
@@ -36,6 +38,13 @@ public class PaymentDialogFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         // redirect to the bank app...
+                        //Set up the bank website
+                        String website = "https://www.cibconline.cibc.com/ebm-resources/online-banking/client/index.html#/auth/signon";
+                        //Parse the website into Uri object
+                        Uri url = Uri.parse(website);
+                        //Send the URI object into the intent to open the website by default browser
+                        Intent intent = new Intent(Intent.ACTION_VIEW, url);
+                        startActivity(intent);
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

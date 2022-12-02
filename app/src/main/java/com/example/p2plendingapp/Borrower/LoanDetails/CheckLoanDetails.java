@@ -60,7 +60,7 @@ public class CheckLoanDetails extends AppCompatActivity implements View.OnClickL
     }
 
     public void returnToMainDashBoard() {
-        Intent sIntent = new Intent(this, MainDashboard.class);
+        sIntent = new Intent(this, MainDashboard.class);
         startActivity(sIntent);
     }
 }

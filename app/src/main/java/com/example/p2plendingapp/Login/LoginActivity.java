@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.p2plendingapp.Borrower.MainDashboard;
 import com.example.p2plendingapp.Database.DBHelper;
+import com.example.p2plendingapp.General.ProfileSelection;
 import com.example.p2plendingapp.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -51,15 +52,15 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences settings1 = getSharedPreferences("PREFS_NAME", 0);
         isChecked = settings1.getBoolean("isChecked", false);
 
-        if (isChecked){
-            Intent intent = new Intent(getApplicationContext(), MainDashboard.class);
+        if (isChecked) {
+            Intent intent = new Intent(getApplicationContext(), ProfileSelection.class);
             startActivity(intent);
         } else {
             login.setOnClickListener(view -> {
                 String user = username.getText().toString();
                 String pass = password.getText().toString();
 
-                if (user.equals("") || pass.equals("")){
+                if (user.equals("") || pass.equals("")) {
                     Toast.makeText(LoginActivity.this, "Input cannot be empty. Please input username or password correctly.", Toast.LENGTH_SHORT).show();
                 } else {
                     Boolean checkuser = DB.CheckUsername(user);
@@ -67,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
                         Boolean checkuserpass = DB.CheckUsernamePassword(user, pass);
                         if (checkuserpass == true) {
                             Toast.makeText(LoginActivity.this, "Successfully logged in.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), MainDashboard.class);
+                            Intent intent = new Intent(getApplicationContext(), ProfileSelection.class);
                             intent.putExtra("username", user);
                             startActivity(intent);
                         } else {
@@ -94,4 +95,5 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+
 }

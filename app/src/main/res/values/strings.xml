@@ -305,6 +305,5 @@
     <string name="re_type_password">Re-type Password</string>
     <string name="confirm">Confirm</string>
     <string name="password">Password</string>
-    <string name="reset_password">Reset Password</string>
 
 </resources>

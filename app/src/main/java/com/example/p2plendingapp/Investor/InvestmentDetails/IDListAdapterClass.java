@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.p2plendingapp.Model.InvestmentDetails;
 import com.example.p2plendingapp.R;
 
 import java.util.ArrayList;
