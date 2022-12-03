@@ -2,13 +2,17 @@ package com.example.p2plendingapp.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.p2plendingapp.Model.Account;
 import com.example.p2plendingapp.Model.Borrower;
+import com.example.p2plendingapp.Model.Customer;
 import com.example.p2plendingapp.Model.Loan;
 
 public class p2pLendingDB extends SQLiteOpenHelper {
@@ -16,6 +20,14 @@ public class p2pLendingDB extends SQLiteOpenHelper {
     //Set up references
     protected static final String DB_NAME = "P2pLending";
     protected static final int DB_VERSION = 1;
+
+    //Account table details
+    protected final String accountTB = "Account";
+    protected final String aId = "AccountId";
+    protected final String userName = "Username";
+    protected final String password = "Password";
+    protected final String eMail = "Email";
+    protected final String acId = "CustomerId";
 
     //Borrower table details
     protected final String borrowerTB = "Borrower";
@@ -39,7 +51,7 @@ public class p2pLendingDB extends SQLiteOpenHelper {
     protected final String dOB = "D0B";
     protected final String fName = "FirstName";
     protected final String lName = "LastName";
-    protected final String cbAcc = "CanadianBankAcc";
+//    protected final String cbAcc = "CanadianBankAcc";
 
     //Investment table details
     protected final String investmentTB = "Investment";
@@ -81,13 +93,21 @@ public class p2pLendingDB extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         //Create each table
 
+        String accountTBCreate = "create table "
+                + accountTB + " ("
+                + aId + " integer primary key autoincrement, "
+                + userName + " text not null, "
+                + password + " text not null, "
+                + eMail + " text not null, "
+                + acId + " integer not null, "
+                + " FOREIGN KEY (" + acId + ") REFERENCES " + customerTB + "(" + cId + "));";
+
         String customerTBCreate = "create table "
                 + customerTB + " ("
-                + cId + " integer primary key, "
+                + cId + " integer primary key autoincrement, "
                 + dOB + " text not null, "
                 + fName + " text not null, "
-                + lName + " text not null, "
-                + cbAcc + " text not null unique"
+                + lName + " text not null"
                 + ");";
 
         String borrowerTBCreate = "create table "
@@ -138,11 +158,11 @@ public class p2pLendingDB extends SQLiteOpenHelper {
 
         String transactionTBCreate = "create table "
                 + transactionTB + " ("
-                + tId + " integer primary key autoincrement, "
+                + tId + " integer primary key, "
                 + tDesc + " text not null unique"
                 + ");";
 
-        tableNameArray = new String[]{customerTBCreate, borrowerTBCreate, investorTBCreate, investmentTBCreate, loanTBCreate, transactionTBCreate};
+        tableNameArray = new String[]{accountTBCreate, customerTBCreate, borrowerTBCreate, investorTBCreate, investmentTBCreate, loanTBCreate, transactionTBCreate};
         try {
             for (int i = 0; i < tableNameArray.length; i++) {
                 db.execSQL(tableNameArray[i]);
@@ -208,5 +228,110 @@ public class p2pLendingDB extends SQLiteOpenHelper {
             e.printStackTrace();
         }
         return numRecordsInserted;
+    }
+
+    public long insertIntoAccountTb(Account account) {
+        myDb = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(userName, account.getUsername());
+        contentValues.put(password, account.getPassword());
+        contentValues.put(eMail, account.getEmail());
+
+        try {
+            numRecordsInserted = myDb.insert(accountTB, null, contentValues);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return numRecordsInserted;
+    }
+
+    public long insertIntoCustomerTb(Customer customer) {
+        myDb = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(dOB, customer.getdOB());
+        contentValues.put(fName, customer.getfName());
+        contentValues.put(lName, customer.getlName());
+
+        try {
+            numRecordsInserted = myDb.insert(accountTB, null, contentValues);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return numRecordsInserted;
+    }
+
+    public Boolean CheckUsername(String username) {
+        myDb = getWritableDatabase();
+        Cursor cursor = null;
+        try{
+             cursor = myDb.rawQuery("select * from accountTB where userName = ?", new String[]{username});
+
+        }catch (SQLException err){
+            err.printStackTrace();
+        }if (cursor.getCount() > 0) { //if user exists
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Boolean CheckUsernamePassword(String username, String password) {
+        myDb = getWritableDatabase();
+        Cursor cursor = myDb.rawQuery("select * from accountTB where userName = ? and password = ?", new String[]{username, password});
+        if (cursor.getCount() > 0) { //if user exists
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public Boolean UpdatePassword(String username, String password){
+        myDb = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("password",password);
+        long result = myDb.update(accountTB, values, "userName = ?",new String[]{username});
+        if (result == -1) {
+            return false;
+        }
+        else{
+            return true;
+        }
+
+    }
+
+    public Boolean insertIntoAccountTb2(String user, String email, String pass) {
+        myDb = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(userName, user);
+        contentValues.put(eMail, email);
+        contentValues.put(password, pass);
+
+        long result = myDb.insert(accountTB, null, contentValues);
+
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public Boolean insertIntoCustomerTb2(String dob, String fname, String lname) {
+        myDb = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(dOB, dob);
+        contentValues.put(fName, fname);
+        contentValues.put(lName, lname);
+
+        long result = myDb.insert(customerTB, null, contentValues);
+
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

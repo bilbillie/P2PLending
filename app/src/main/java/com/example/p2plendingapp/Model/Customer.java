@@ -6,18 +6,18 @@ public class Customer {
     private String dOB;
     private String fName;
     private String lName;
-    private String cbAcc;
+//    private String cbAcc;
 
     public Customer() {
 
     }
 
-    public Customer(Integer cId, String dOB, String fName, String lName, String cbAcc) {
-        this.cId = cId;
+    public Customer(String dOB, String fName, String lName) {
+//        this.cId = cId;
         this.dOB = dOB;
         this.fName = fName;
         this.lName = lName;
-        this.cbAcc = cbAcc;
+//        this.cbAcc = cbAcc;
     }
 
     public Integer getcId() {
@@ -52,11 +52,11 @@ public class Customer {
         this.lName = lName;
     }
 
-    public String getCbAcc() {
-        return cbAcc;
-    }
-
-    public void setCbAcc(String cbAcc) {
-        this.cbAcc = cbAcc;
-    }
+//    public String getCbAcc() {
+//        return cbAcc;
+//    }
+//
+//    public void setCbAcc(String cbAcc) {
+//        this.cbAcc = cbAcc;
+//    }
 }
